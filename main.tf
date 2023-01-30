@@ -35,20 +35,20 @@ resource "aws_ecr_repository" "default" {
   dynamic "encryption_configuration" {
     for_each = var.encryption_configuration != null ? [var.encryption_configuration] : []
     content {
-      encryption_type = lookup(encryption_configuration.value.encryption_type, null)
-      kms_key         = lookup(encryption_configuration.value.kms_key, null)
+      encryption_type = lookup(encryption_configuration.value, "encryption_type", null)
+      kms_key         = lookup(encryption_configuration.value, "kms_key", null)
     }
   }
   dynamic "image_scanning_configuration" {
     for_each = var.image_scanning_configuration
     content {
-      scan_on_push = lookup(image_scanning_configuration.value.scan_on_push, null)
+      scan_on_push = lookup(image_scanning_configuration.value, "scan_on_push", null)
     }
   }
   dynamic "timeouts" {
     for_each = var.timeouts
     content {
-      delete = lookup(timeouts.value.delete, null)
+      delete = lookup(timeouts.value, "delete", null)
     }
   }
 }
